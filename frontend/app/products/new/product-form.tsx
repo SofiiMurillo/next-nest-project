@@ -18,6 +18,7 @@ export function ProductForm() {
         price: parseFloat(data.price),
     });
     router.push("/")
+    router.refresh()
     });
   return (
 
