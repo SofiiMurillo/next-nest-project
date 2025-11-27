@@ -1,7 +1,9 @@
 //Aqui se definen las funciones que se van a pedir hacia el api
 
     export async function getProdcuts() {
-        const data = await fetch("http://localhost:4000/api/products")
+        const data = await fetch("http://localhost:4000/api/products", {
+            cache: "no-store",
+        });
         return await data.json();     
     }
 

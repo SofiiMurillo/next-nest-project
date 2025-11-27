@@ -17,7 +17,7 @@ export function ProductForm() {
         ...data,
         price: parseFloat(data.price),
     });
-    router.push("/")
+    router.push("/products");
     router.refresh()
     });
   return (
