@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { getProdcuts } from "./products/products.api";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const dynamic = "force-dynamic";
 
 async function Homepage() {
   const products = await getProdcuts()
@@ -25,19 +27,25 @@ async function Homepage() {
 
       <div>
         {products.map((product) => (
-          <Card className="w-full max-w-sm" >
+          <Card className="w-full max-w-sm" key={product.id}>
             <CardHeader>
-              <CardTitle>{product.name}</CardTitle>
+              <CardTitle className="flex justify-between" >{product.name}
+                <span className="text-sm font-bold text-gray-500 " >
+                  ${product.price}
+                </span>
+              </CardTitle>
               <CardDescription>{product.description}</CardDescription>
-              <CardAction>Card Action</CardAction>
             </CardHeader>
+            <img src={product.image} alt="" />
             <CardContent>
               <p>Card Content</p>
             </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
+            <CardFooter  className="flex justify-between" >
+               <Button className="mt-5" >Comprar</Button>
+
+               <Button className="mt-5" variant="destructive"  >ELiminar</Button>
+
             </CardFooter>
-            <Button>Comprar</Button>
           </Card>
         ))}
       </div>
