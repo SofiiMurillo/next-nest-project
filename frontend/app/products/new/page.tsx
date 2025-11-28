@@ -6,9 +6,18 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import {ProductForm} from './product-form'
+import { ProductForm } from './product-form'
+import { getProduct } from "../products.api"
 
-function ProductsNewPage() {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+async function ProductsNewPage({ params }: Props) {
+  const product = await getProduct(params.id)
+  console.log(product)
   return (
     <Card className="w-full max-w-sm justify-center">
       <CardHeader>
@@ -18,7 +27,7 @@ function ProductsNewPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ProductForm/>
+        <ProductForm product={product} />
       </CardContent>
 
     </Card>

@@ -7,8 +7,16 @@ import { CardFooter } from "@/components/ui/card";
 import { createProduct } from "../products.api";
 import { useRouter } from "next/navigation";
 
-export function ProductForm() {
-  const { register, handleSubmit } = useForm();
+export function ProductForm({product}: any) {
+  console.log(product)
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: product?.name,
+      description: product?.description,
+      price: product?.price,
+      image: product?.image,
+    }
+  });
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {

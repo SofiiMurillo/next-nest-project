@@ -4,14 +4,15 @@ import { getProduct } from "../products.api";
 import { buttonVariants } from "@/components/ui/button";
 
 interface Props {
-    params: {
+    params: Promise<{
         id: string;
-    }
+    }>
 }
 
 
-async function ProductDetailPage({ params }: Props ) {
-    const product = await getProduct(params.id);
+async function ProductDetailPage({ params }: Props) {
+    const { id } = await params;
+    const product = await getProduct(id);
     return (
         <div>
             <Card>
@@ -19,13 +20,13 @@ async function ProductDetailPage({ params }: Props ) {
                     <CardTitle className="flex justify-between" >
                         Detalles de {product.name}
                         <Link
-                        className={buttonVariants()}
-                        href="/"
+                            className={buttonVariants()}
+                            href="/"
                         >
-                            Atras 
+                            Atras
                         </Link>
                     </CardTitle>
-                    
+
                     <CardDescription>{product.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
