@@ -4,11 +4,11 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { CardFooter } from "@/components/ui/card";
-import { createProduct } from "../products.api";
-import { useRouter } from "next/navigation";
+import { createProduct, updateProduct } from "../products.api";
+import { useParams, useRouter } from "next/navigation";
+import { parse } from "path"
 
 export function ProductForm({product}: any) {
-  console.log(product)
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: product?.name,
@@ -18,13 +18,23 @@ export function ProductForm({product}: any) {
     }
   });
   const router = useRouter();
+  const params = useParams<{ id: string }>()
+  console.log(params)
+
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
-    await createProduct({
-      ...data,
-      price: parseFloat(data.price),
-    });
+    if (params.id) { 
+      await updateProduct(params.id, {
+        ...data,
+        price: parseFloat(data.price),
+      })
+      // Lógica para actualizar el producto
+    } else {
+      await createProduct({
+        ...data,
+        price: parseFloat(data.price),
+      })
+    }
     router.push("/");
     router.refresh()
   });
@@ -33,7 +43,7 @@ export function ProductForm({product}: any) {
     <form onSubmit={onSubmit} >
       <div className="flex flex-col gap-6 w-full">
         <div className="grid gap-2">
-          <Label htmlFor="productName">Product Name</Label>
+          <Label htmlFor="productName">Nombre del Producto</Label>
           <Input
             {...register('name')}
             placeholder="LAPTOP PRO"
@@ -42,16 +52,16 @@ export function ProductForm({product}: any) {
 
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">Descripción</Label>
           <Input
             {...register('description')}
-            placeholder="pequeña descripcion sobre el producto creado."
+            placeholder="Laptop portátil compacto, con pantalla integrada, teclado y batería."
             required
           />
 
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="price">Price</Label>
+          <Label htmlFor="price">Precio</Label>
           <Input
             {...register('price')}
             placeholder="$123456"
@@ -62,17 +72,19 @@ export function ProductForm({product}: any) {
 
         <div className="grid gap-2">
           <div className="flex items-center">
-            <Label htmlFor="image"> Image </Label>
+            <Label htmlFor="image"> Imagen </Label>
           </div>
           <Input
             {...register('image')}
-            placeholder="Url de la imagen que deseas poner"
+            placeholder="https://mi-imagen.com/imagen.jpg"
             required />
         </div>
       </div>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full">
-          Crear producto
+          {
+            params.id ? 'Actualizar Producto' : ' Crear Producto'
+          }
         </Button>
       </CardFooter>
     </form>

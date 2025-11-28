@@ -29,9 +29,7 @@ export function ProductCard({product}: any) {
               <CardDescription>{product.description}</CardDescription>
             </CardHeader>
             <img src={product.image} alt="" />
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
+
             <CardFooter  className="flex justify-between" >
                <Button className="mt-5" 
                onClick={(e) => {
@@ -40,8 +38,13 @@ export function ProductCard({product}: any) {
                } }
                >Editar</Button>
 
-               <Button className="mt-5" variant="destructive" 
-               onClick={() => handleRemoveProduct(product.id)} >ELiminar</Button>
+               <Button
+              className="mt-5" 
+              variant="destructive" 
+               onClick={(e) =>{ 
+                e.stopPropagation();
+               handleRemoveProduct(product.id)}} 
+               >ELiminar</Button>
 
             </CardFooter>
           </Card>
