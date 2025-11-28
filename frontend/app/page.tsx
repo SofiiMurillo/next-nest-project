@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { getProdcuts } from "./products/products.api";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ProductCard } from "@/components/product-card";
+
 
 export const dynamic = "force-dynamic";
 
@@ -24,33 +25,13 @@ async function Homepage() {
 
       </div>
 
-
-      <div>
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3" >
         {products.map((product) => (
-          <Card className="w-full max-w-sm" key={product.id}>
-            <CardHeader>
-              <CardTitle className="flex justify-between" >{product.name}
-                <span className="text-sm font-bold text-gray-500 " >
-                  ${product.price}
-                </span>
-              </CardTitle>
-              <CardDescription>{product.description}</CardDescription>
-            </CardHeader>
-            <img src={product.image} alt="" />
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter  className="flex justify-between" >
-               <Button className="mt-5" >Comprar</Button>
-
-               <Button className="mt-5" variant="destructive"  >ELiminar</Button>
-
-            </CardFooter>
-          </Card>
+          <ProductCard  product={product} key={product.id} />
         ))}
       </div>
     </>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;
